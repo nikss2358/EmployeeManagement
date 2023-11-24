@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UsernameConstraintValidator.class)
 public @interface UsernameExist {
-    String message() default "{value.negative}";
+    String message() default "This username's already exists. Sign in or create another one";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

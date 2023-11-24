@@ -13,9 +13,9 @@ import java.util.Collection;
 public class User {
     @Id
     @GeneratedValue
-    private int id;
+    private Integer id;
     @NotBlank(message = "Username is required")
-    @UsernameExist(message = "This username's already exists. Sign in or create another one")
+    @UsernameExist
     private String username;
     @Size(min = 5, message = "Password should be at least 5 characters long")
     private String password;
