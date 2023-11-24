@@ -1,0 +1,16 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Management</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<h2>Welcome to the Employee Management Application!</h2>
+<form method = "GET" th:action="@{home/register}">
+    <button> Register </button>
+</form>
+<form method = "GET" th:action="@{home/signIN}">
+    <button> Sign In </button>
+</form>
+
+
+</html>
