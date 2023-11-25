@@ -1,7 +1,9 @@
 package management.web;
 
-import management.User;
+import management.objectData.User;
 import management.data.UserRepository;
+import management.validation.SignInUser;
+import management.validation.SignInUserProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -10,9 +12,10 @@ import jakarta.validation.Valid;
 
 
 @Controller
-@RequestMapping("/home")
+@RequestMapping("/")
 @SessionAttributes("user")
 public class HomeController {
+
     private final UserRepository repository;
 
     @Autowired
@@ -20,7 +23,7 @@ public class HomeController {
         this.repository = repository;
     }
 
-    @GetMapping
+    @GetMapping("/home")
     public String showHomeForm() {
         return "home";
     }
@@ -40,12 +43,31 @@ public class HomeController {
         return new User();
     }
 
+    @ModelAttribute(name = "signInUserProxy")
+    public SignInUserProxy getSignInUserProxy() {
+        return new SignInUserProxy();
+    }
+
     @PostMapping("/register")
     public String processUser(@Valid @ModelAttribute("user") User user, Errors errors) {
         if (errors.hasErrors())
             return "register";
         repository.save(user);
+        user.setPassword("");
+        user.setUsername("");
         return "home";
+    }
+
+    @PostMapping("/signIn")
+    public String processSignIn(@ModelAttribute("user") User userAttribute,
+                                @Valid @ModelAttribute("signInUserProxy") SignInUserProxy signInUserProxy,
+                                Errors errors) {
+        if (errors.hasErrors())
+            return "signIn";
+
+        userAttribute.setUsername(signInUserProxy.getSignInUser().getName());
+        userAttribute.setPassword(signInUserProxy.getSignInUser().getPass());
+        return "entrance";
     }
 
 }

@@ -1,6 +1,6 @@
 package management.data;
 
-import management.Position;
+import management.objectData.Position;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

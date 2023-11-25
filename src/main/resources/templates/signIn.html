@@ -5,22 +5,20 @@
     <link rel="stylesheet" th:href="@{/styles.css}"/>
 
 </head>
-<h2>Register</h2>
-<form method="POST" th:object="${user}">
+<h2>Sign in</h2>
+<form method="POST" th:object="${signInUserProxy}">
     <div>
         <label>Username</label>
-        <input type="text" th:field="*{username}"/>
-        <span class="error"
-              th:if="${#fields.hasErrors('username')}"
-              th:errors="*{username}">UserName Error</span>
+        <input type="text" th:field="*{signInUser.name}"/>
         </br>
         <label>Password</label>
-        <input type="text" th:field="*{password}"/>
+        <input type="text" th:field="*{signInUser.pass}"/>
+        <br>
         <span class="error"
-              th:if="${#fields.hasErrors('password')}"
-              th:errors="*{password}">Password Error</span>
-        </br>
-        <button> Apply</button>
+              th:if="${#fields.hasErrors('signInUser')}"
+              th:errors="*{signInUser}">Password Error</span>
+        <br/>
+        <button> Continue</button>
     </div>
 </form>
 </body>

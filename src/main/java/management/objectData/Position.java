@@ -1,4 +1,4 @@
-package management;
+package management.objectData;
 
 import jakarta.persistence.*;
 import lombok.Data;

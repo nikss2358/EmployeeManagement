@@ -1,10 +1,11 @@
-package management;
+package management.objectData;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import lombok.Data;
+import management.validation.UsernameExist;
 
 import java.util.Collection;
 
@@ -23,5 +24,4 @@ public class User {
     private Collection<Employee> userEmployees;
     @OneToMany()
     private Collection<Position> userPositions;
-
 }
