@@ -1,0 +1,25 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Management</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<body>
+<form th:method="POST" th:action="@{/deletePosition}" th:object="${user}">
+    <div class="grid">
+        <div>
+            <h3>Choose the position to delete:</h3>
+            <div th:each="chosen : *{chosenOnes}">
+                <input th:field="*{chosenOnes}" type="checkbox"
+                       th:value="${chosen.id}"/>
+                <span th:text="${chosen.name}">POSITION</span>
+            </div>
+            <span class="error"
+                  th:if="${#fields.hasErrors('chosenOnes')}"
+                  th:errors="*{chosenOnes}">Position Error</span>
+        </div>
+    </div>
+    <button>OK</button>
+</form>
+</body>
+</html>

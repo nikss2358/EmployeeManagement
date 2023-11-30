@@ -2,6 +2,7 @@ package management.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import management.data.PositionRepository;
 import management.data.UserRepository;
 import management.objectData.User;
 import org.springframework.beans.factory.annotation.Autowired;

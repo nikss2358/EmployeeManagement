@@ -2,10 +2,10 @@ package management.web;
 
 import management.objectData.User;
 import management.data.UserRepository;
-import management.validation.SignInUser;
 import management.validation.SignInUserProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
@@ -21,6 +21,12 @@ public class HomeController {
     @Autowired
     HomeController(UserRepository repository) {
         this.repository = repository;
+    }
+    @ModelAttribute("model")
+    public Model getModel(Model model){
+        model.addAttribute("user", new User());
+        model.addAttribute("signInUserProxy", new SignInUserProxy());
+        return model;
     }
 
     @GetMapping("/home")
@@ -38,36 +44,27 @@ public class HomeController {
         return "signIn";
     }
 
-    @ModelAttribute(name = "user")
-    public User getUser() {
-        return new User();
-    }
-
-    @ModelAttribute(name = "signInUserProxy")
-    public SignInUserProxy getSignInUserProxy() {
-        return new SignInUserProxy();
-    }
-
     @PostMapping("/register")
     public String processUser(@Valid @ModelAttribute("user") User user, Errors errors) {
         if (errors.hasErrors())
             return "register";
         repository.save(user);
-        user.setPassword("");
         user.setUsername("");
+        user.setPassword("");
         return "home";
     }
 
     @PostMapping("/signIn")
-    public String processSignIn(@ModelAttribute("user") User userAttribute,
-                                @Valid @ModelAttribute("signInUserProxy") SignInUserProxy signInUserProxy,
-                                Errors errors) {
+    public String processSignIn(
+            @ModelAttribute Model model,
+            @Valid @ModelAttribute("signInUserProxy") SignInUserProxy signInUserProxy,
+            Errors errors) {
         if (errors.hasErrors())
             return "signIn";
 
-        userAttribute.setUsername(signInUserProxy.getSignInUser().getName());
-        userAttribute.setPassword(signInUserProxy.getSignInUser().getPass());
-        return "entrance";
+        User user = repository.findByUsername(signInUserProxy.getSignInUser().getName());
+        model.addAttribute("user", user);
+        return "redirect:/positionHome";
     }
 
 }

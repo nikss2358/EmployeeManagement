@@ -1,0 +1,19 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Management</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<body>
+<h3>Renaming this positions:</h3>
+<form th:method="POST" th:action="@{/editPosition}" th:object="${user}">
+    <li th:each="chosen : *{chosenOnes}">
+        <span th:text="${chosen.name}">taco name</span>
+        </li>
+        <br/>
+    <h3>by this name:</h3>
+        <input type="text" th:field="*{nameToEdit}"/>
+    <button>OK</button>
+    </form>
+</body>
+</html>

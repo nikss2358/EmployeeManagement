@@ -1,0 +1,16 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Management</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<body>
+<h2>All your positions:</h2>
+<form th:object="${user}">
+<li th:each="position : *{positions}">
+    <span th:text="${position.name}">POSITION</span><br/>
+    <br/>
+    </form>
+</h2>
+</body>
+</html>

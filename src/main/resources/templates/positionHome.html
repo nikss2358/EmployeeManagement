@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Management</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<body>
+<form th:object="${user}">
+    <h2>Welcome,
+        <span th:text="*{username}"></span>
+        !</h2>
+</form>
+<form method="GET" th:action="@{/positionManagementHome}">
+    <button>Position Management</button>
+</form>
+<br/>
+<form method="GET" th:action="@{/employeeManagementHome}">
+    <button>Employee Management</button>
+</form>
+</body>
+</html>
+
+

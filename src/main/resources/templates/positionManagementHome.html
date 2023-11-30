@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Management</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<body>
+</form>
+<h2>Position Management</h2>
+<form method="GET" th:action="@{/viewAllPositions}">
+    <button>View all positions</button>
+</form>
+<br/>
+<form method="GET" th:action="@{/addPosition}">
+    <button>Add position</button>
+</form>
+<br/>
+<form method="GET" th:action="@{/editPositionHome}">
+    <button>Edit position</button>
+</form>
+<br/>
+<form method="GET" th:action="@{/deletePositionHome}">
+    <button>Delete position</button>
+</form>
+</body>
+</html>

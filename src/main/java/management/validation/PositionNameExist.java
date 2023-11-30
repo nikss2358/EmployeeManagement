@@ -10,9 +10,9 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = InvalidPropertiesValidator.class)
-public @interface InvalidProperties {
-    String message() default "Invalid username or password";
+@Constraint(validatedBy = PositionNameExistValidator.class)
+public @interface PositionNameExist {
+    String message() default "This name's already exist";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

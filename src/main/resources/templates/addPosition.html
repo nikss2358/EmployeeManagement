@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Management</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<body>
+<h2>Adding position</h2>
+<form th:method="POST" th:action="@{/checkAddingPosition}" th:object="${position}">
+    <div>
+        <label>Name</label>
+        <input type="text" th:field="*{name}"/>
+        <span class="error"
+              th:if="${#fields.hasErrors('name')}"
+              th:errors="*{name}">Name Error</span>
+        <br/>
+        <button>Apply</button>
+    </div>
+</form>
+<form method="GET" th:action="@{/positionManagementHome}">
+    <button>Back</button>
+</form>
+</body>
+</html>
