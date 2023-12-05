@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Management</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<body>
+<form th:method="POST" th:action="@{/checkDeleteEmployee}" th:object="${user}">
+    <div class="grid">
+        <div>
+            <h2>Выберите сотрудника для удаления:</h2>
+            <div th:each="chosen : *{chosenOnesEmployees}">
+                <input th:field="*{chosenOnesEmployees}" type="checkbox"
+                       th:value="${chosen.id}"/>
+                <span th:text="${chosen}">EMPLOYEE</span>
+                <br/>
+                <p> Должность = <span th:text="${chosen.position}">POSITION</span>
+                <p>Дата принятия на работу = <span th:text="${chosen.date}">DATE</span></p>
+            </div>
+            <span class="error"
+                  th:if="${#fields.hasErrors('chosenOnesEmployees')}"
+                  th:errors="*{chosenOnesEmployees}">ChosenOnesEmployees Error</span>
+        </div>
+    </div>
+    <button>ОК</button>
+</form>
+<form th:action="@{/employeeManagementHome}">
+    <button>Назад</button>
+</form>
+</body>
+</html>

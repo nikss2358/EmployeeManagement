@@ -7,7 +7,7 @@ public class SignInUserProxy {
     @InvalidProperties
     private SignInUser signInUser;
 
-    public SignInUserProxy(){
+    public SignInUserProxy() {
         signInUser = new SignInUser();
     }
 }

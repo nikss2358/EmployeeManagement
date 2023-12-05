@@ -5,20 +5,20 @@
     <link rel="stylesheet" th:href="@{/styles.css}"/>
 </head>
 <body>
-<h2>Adding position</h2>
+<h2>Добавление должности</h2>
 <form th:method="POST" th:action="@{/checkAddingPosition}" th:object="${position}">
     <div>
-        <label>Name</label>
+        <label>Название:</label>
         <input type="text" th:field="*{name}"/>
         <span class="error"
               th:if="${#fields.hasErrors('name')}"
               th:errors="*{name}">Name Error</span>
         <br/>
-        <button>Apply</button>
+        <button>Подтвердить</button>
     </div>
 </form>
 <form method="GET" th:action="@{/positionManagementHome}">
-    <button>Back</button>
+    <button>Назад</button>
 </form>
 </body>
 </html>

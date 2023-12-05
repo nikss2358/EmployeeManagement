@@ -5,15 +5,16 @@
     <link rel="stylesheet" th:href="@{/styles.css}"/>
 </head>
 <body>
-<h3>Renaming this positions:</h3>
+<h3>Изменения коснутся:</h3>
 <form th:method="POST" th:action="@{/editPosition}" th:object="${user}">
-    <li th:each="chosen : *{chosenOnes}">
-        <span th:text="${chosen.name}">taco name</span>
-        </li>
-        <br/>
-    <h3>by this name:</h3>
-        <input type="text" th:field="*{nameToEdit}"/>
-    <button>OK</button>
-    </form>
+    <li th:each="chosen : *{chosenOnesPositions}">
+        <span th:text="${chosen.name}">Chosen</span>
+    </li>
+    <br/>
+    <h3>новое название:</h3>
+    <input type="text" th:field="*{nameToEdit}"/>
+    <button>ОК</button>
+</form>
+</form>
 </body>
 </html>

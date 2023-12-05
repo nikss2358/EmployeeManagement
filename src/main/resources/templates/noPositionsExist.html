@@ -5,7 +5,10 @@
     <link rel="stylesheet" th:href="@{/styles.css}"/>
 </head>
 <body>
-<h2>No positions exist</h2>
-<a th:href="@{/addPosition}" id="another">Add position</a>
+<h2>Нет должностей</h2>
+<a th:href="@{/addPosition}" id="another">Добавить должность</a>
 </body>
+<form th:action="@{/employeeManagementHome}">
+    <button>Назад</button>
+</form>
 </html>

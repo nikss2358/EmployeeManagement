@@ -6,16 +6,19 @@
 </head>
 <body>
 <form th:object="${user}">
-    <h2>Welcome,
+    <h2>Добро пожаловать,
         <span th:text="*{username}"></span>
         !</h2>
 </form>
 <form method="GET" th:action="@{/positionManagementHome}">
-    <button>Position Management</button>
+    <button>Управление должностями</button>
 </form>
 <br/>
 <form method="GET" th:action="@{/employeeManagementHome}">
-    <button>Employee Management</button>
+    <button>Управление сотрудниками</button>
+</form>
+<form th:action="@{/home}">
+    <button>Выйти</button>
 </form>
 </body>
 </html>

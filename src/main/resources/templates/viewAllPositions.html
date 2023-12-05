@@ -5,12 +5,15 @@
     <link rel="stylesheet" th:href="@{/styles.css}"/>
 </head>
 <body>
-<h2>All your positions:</h2>
+<h2>Все ваши должности:</h2>
 <form th:object="${user}">
-<li th:each="position : *{positions}">
-    <span th:text="${position.name}">POSITION</span><br/>
-    <br/>
-    </form>
+    <li th:each="position : *{positionsWithoutDeletedOne}">
+        <span th:text="${position.name}">POSITION</span><br/>
+        <br/>
+</form>
 </h2>
+<form th:action="@{/positionManagementHome}">
+    <button>Назад</button>
+</form>
 </body>
 </html>

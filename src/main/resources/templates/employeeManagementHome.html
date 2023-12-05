@@ -1,0 +1,27 @@
+<head>
+    <title>Employee Management</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<body>
+</form>
+<h2>Управление сотрудниками</h2>
+<form method="GET" th:action="@{/viewAllEmployees}">
+    <button>Посмотреть всех сотрудников</button>
+</form>
+<br/>
+<form method="GET" th:action="@{/addEmployee}">
+    <button>Добавить сотрудника</button>
+</form>
+<br/>
+<form method="GET" th:action="@{/editEmployeeEntrance}">
+    <button>Редактировать сотрудника</button>
+</form>
+<br/>
+<form method="GET" th:action="@{/deleteEmployee}">
+    <button>Удалить сотрудника</button>
+</form>
+<form method="GET" th:action="@{/entranceFromEmpl}">
+    <button>Назад</button>
+</form>
+</body>
+</html>

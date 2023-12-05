@@ -12,7 +12,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = PositionNameExistValidator.class)
 public @interface PositionNameExist {
-    String message() default "This name's already exist";
+    String message() default "Такое имя уже существует";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

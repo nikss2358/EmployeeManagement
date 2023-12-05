@@ -1,24 +1,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Sign In</title>
+    <title>Employee Management</title>
     <link rel="stylesheet" th:href="@{/styles.css}"/>
 
 </head>
-<h2>Sign in</h2>
+<h2>Вход</h2>
 <form method="POST" th:object="${signInUserProxy}">
     <div>
-        <label>Username</label>
+        <label>Имя пользователя</label>
         <input type="text" th:field="*{signInUser.name}"/>
         </br>
-        <label>Password</label>
+        <label>Пароль</label>
         <input type="text" th:field="*{signInUser.pass}"/>
         <br>
         <span class="error"
               th:if="${#fields.hasErrors('signInUser')}"
               th:errors="*{signInUser}">Password Error</span>
         <br/>
-        <button>Continue</button>
+        <button>Продолжить</button>
     </div>
 </form>
 </body>

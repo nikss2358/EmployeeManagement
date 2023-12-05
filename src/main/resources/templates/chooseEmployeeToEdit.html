@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Management</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<body>
+<form th:method="POST" th:action="@{/checkChooseEmployeeToEdit}" th:object="${user}">
+    <div class="grid">
+        <div>
+            <h2>Выберите сотрудника для изменения:</h2>
+            <div th:each="chosen : *{chosenOnesEmployees}">
+                <input th:field="*{chosenOnesEmployees}" type="checkbox"
+                       th:value="${chosen.id}"/>
+                <span th:text="${chosen}">Employee </span>
+            </div>
+            <span class="error"
+                  th:if="${#fields.hasErrors('chosenOnesEmployees')}"
+            <p>Выберите сотрудника</p></span>
+        </div>
+    </div>
+    <button>ОК</button>
+</form>
+<form th:action="@{/employeeManagementHome}">
+    <button>Назад</button>
+</form>
+</body>
+</html>

@@ -5,22 +5,24 @@
     <link rel="stylesheet" th:href="@{/styles.css}"/>
 </head>
 <body>
-<h2>Editing position</h2>
+<h2>Редактирование должности</h2>
 <form th:method="POST" th:action="@{/checkBeforeEditingPosition}" th:object="${user}">
     <div class="grid">
         <div>
-            <h3>Choose the position to edit:</h3>
-            <div th:each="chosen : *{chosenOnes}">
-                <input th:field="*{chosenOnes}" type="checkbox"
+            <h3>Выберите должность для изменения:</h3>
+            <div th:each="chosen : *{chosenOnesPositions}">
+                <input th:field="*{chosenOnesPositions}" type="checkbox"
                        th:value="${chosen.id}"/>
                 <span th:text="${chosen.name}">POSITION</span>
             </div>
             <span class="error"
-                  th:if="${#fields.hasErrors('chosenOnes')}"
-                  th:errors="*{chosenOnes}">Position Error</span>
+                  th:if="${#fields.hasErrors('chosenOnesPositions')}"
+                  th:errors="*{chosenOnesPositions}">ChosenOnes Error</span>
         </div>
     </div>
-    <button>OK</button>
+    <button>ОК</button>
 </form>
+<form th:action="@{/positionManagementHome}">
+    <button>Назад</button>
 </body>
 </html>

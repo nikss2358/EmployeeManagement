@@ -6,21 +6,24 @@
 </head>
 <body>
 </form>
-<h2>Position Management</h2>
+<h2>Управление должностями</h2>
 <form method="GET" th:action="@{/viewAllPositions}">
-    <button>View all positions</button>
+    <button>Посмотреть все должности</button>
 </form>
 <br/>
 <form method="GET" th:action="@{/addPosition}">
-    <button>Add position</button>
+    <button>Добавить должность</button>
 </form>
 <br/>
 <form method="GET" th:action="@{/editPositionHome}">
-    <button>Edit position</button>
+    <button>Изменить должность</button>
 </form>
 <br/>
 <form method="GET" th:action="@{/deletePositionHome}">
-    <button>Delete position</button>
+    <button>Удалить должность</button>
+</form>
+<form method="GET" th:action="@{/entranceFromPos}">
+    <button>Назад</button>
 </form>
 </body>
 </html>

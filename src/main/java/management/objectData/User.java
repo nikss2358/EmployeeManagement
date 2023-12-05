@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import management.validation.UsernameExist;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,18 +16,35 @@ public class User {
     @Id
     @GeneratedValue
     private int id;
-    @NotBlank(message = "Username is required")
+    @NotBlank(message = "Укажите имя пользователя")
     @UsernameExist
     private String username;
-    @Size(min = 5, message = "Password should be at least 5 characters long")
+    @Size(min = 5, message = "Минимум 5 знаков")
     private String password;
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<Employee> userEmployees;
+    private List<Employee> employees;
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Position> positions;
     @Transient
-    @Size(min = 1, message = "You need to choose at least one position")
-    private List<Position> chosenOnes;
+    @Size(min = 1, message = "Выберите минимум 1 должность")
+    private List<Position> chosenOnesPositions;
+    @Transient
+    @Size(min = 1, message = "Выберите минимум 1 сотрудника")
+    private List<Employee> chosenOnesEmployees;
     @Transient
     private String nameToEdit;
+    @Transient
+    private Employee employeeToEdit;
+    @Transient
+    private List<Position> positionsWithoutDeletedOne;
+
+
+    public List<Position> getPositionsWithoutDeletedOne() {
+        List<Position> withoutDeletedOne = new ArrayList<>();
+        for (Position position : positions) {
+            if (!position.getName().equals("Удалена"))
+                withoutDeletedOne.add(position);
+        }
+        return withoutDeletedOne;
+    }
 }

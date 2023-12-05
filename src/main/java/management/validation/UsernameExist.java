@@ -12,7 +12,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UsernameExistValidator.class)
 public @interface UsernameExist {
-    String message() default "This username's already exists. Sign in or create another one";
+    String message() default "Такое имя уже существует. Войдите или создайте новую учетную запись";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

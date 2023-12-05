@@ -5,6 +5,10 @@
     <link rel="stylesheet" th:href="@{/styles.css}"/>
 </head>
 <body>
-<h1>Success</h1>
+<h2>Нет сотрудников</h2>
+<a th:href="@{/addEmployee}" id="another">Добавить сотрудника </a>
 </body>
+<form th:action="@{/employeeManagementHome}">
+    <button>Назад</button>
+</form>
 </html>

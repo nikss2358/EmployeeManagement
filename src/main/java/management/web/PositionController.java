@@ -2,7 +2,10 @@ package management.web;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import lombok.Getter;
+import management.data.EmployeeRepository;
 import management.data.PositionRepository;
+import management.objectData.Employee;
 import management.objectData.Position;
 import management.objectData.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,21 +21,21 @@ import java.util.List;
 @SessionAttributes("user")
 public class PositionController {
 
-    private final PositionRepository repository;
+    private final PositionRepository positionRepository;
+    private final EmployeeRepository employeeRepository;
+    @Getter
+    private static User userForPositionValidation;
 
     @Autowired
-    PositionController(PositionRepository repository) {
-        this.repository = repository;
+    PositionController(PositionRepository positionRepository, EmployeeRepository employeeRepository) {
+
+        this.positionRepository = positionRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     @ModelAttribute("position")
     public Position getPosition() {
         return new Position();
-    }
-
-    @GetMapping("/positionHome")
-    public String getPositionHome() {
-        return "positionHome";
     }
 
     @GetMapping("/positionManagementHome")
@@ -41,26 +44,39 @@ public class PositionController {
     }
 
     @GetMapping("/viewAllPositions")
-    public String getViewAll(@ModelAttribute("user") User user) {
+    public String getViewAllPositions(@ModelAttribute("user") User user) {
         if (user.getPositions().isEmpty())
             return "noPositionsExist";
-        return "viewAllPositions";
+        for (Position position : user.getPositions())
+            if (!position.getName().equals("Удалена"))
+                return "viewAllPositions";
+        return "noPositionsExist";
+    }
+
+    @GetMapping("/entranceFromPos")
+    public String getEntrance() {
+        return "entrance";
     }
 
     @GetMapping("/addPosition")
-    public String getAdd() {
+    public String getAdd(@ModelAttribute("user") User user) {
+        userForPositionValidation = user;
         return "addPosition";
     }
 
     @GetMapping("/editPositionHome")
     public String getEdit(@ModelAttribute("user") User user) {
-        user.setChosenOnes(new ArrayList<>(user.getPositions()));
-        return "chooseEditPosition";
+        if (user.getPositions().isEmpty())
+            return "noPositionsExist";
+        user.setChosenOnesPositions(new ArrayList<>(user.getPositionsWithoutDeletedOne()));
+        return "choosePositionToEdit";
     }
 
     @GetMapping("/deletePositionHome")
     public String getDelete(@ModelAttribute("user") User user) {
-        user.setChosenOnes(new ArrayList<>(user.getPositions()));
+        if (user.getPositions().isEmpty())
+            return "noPositionsExist";
+        user.setChosenOnesPositions(new ArrayList<>(user.getPositionsWithoutDeletedOne()));
         return "deletePosition";
     }
 
@@ -74,16 +90,16 @@ public class PositionController {
             return "addPosition";
 
         position.setUser(user);
-        repository.save(position);
+        positionRepository.save(position);
         user.getPositions().add(position);
         return "addPosition";
     }
 
     @PostMapping("/checkBeforeEditingPosition")
     public String checkBeforeEdit(@Valid @ModelAttribute("user") User user, Errors errors) {
-        if (errors.hasFieldErrors("chosenOnes")) {
-            user.setChosenOnes(new ArrayList<>(user.getPositions()));
-            return "chooseEditPosition";
+        if (errors.hasFieldErrors("chosenOnesPositions")) {
+            user.setChosenOnesPositions(new ArrayList<>(user.getPositionsWithoutDeletedOne()));
+            return "choosePositionToEdit";
         }
         return "editPosition";
     }
@@ -91,33 +107,51 @@ public class PositionController {
     @PostMapping("/editPosition")
     @Transactional
     public String editPosition(@ModelAttribute("user") User user) {
-        String rename = user.getNameToEdit();
-        List<Position> positionsToEdit = user.getChosenOnes();
-            for (Position position : positionsToEdit) {
-
-                for (Position curr : user.getPositions())
-                    if (curr.getName().equals(position.getName()))
-                        curr.setName(rename);
-
-                repository.updatePosition(rename, position.getId());
-            }
+        List<Position> positionsToEdit = user.getChosenOnesPositions();
+        Position newPos = positionRepository.findByUserAndName(user, user.getNameToEdit());
+        if (newPos == null) {
+            newPos = new Position();
+            newPos.setUser(user);
+            newPos.setName(user.getNameToEdit());
+            positionRepository.save(newPos);
+            user.getPositions().add(newPos);
+        }
+        user.setNameToEdit("");
+        editOrDeletePosition(user, newPos, positionsToEdit);
         return "positionManagementHome";
     }
 
     @PostMapping("/deletePosition")
     @Transactional
     public String deletePosition(@Valid @ModelAttribute("user") User user, Errors errors) {
-        if (errors.hasFieldErrors("chosenOnes")) {
-            user.setChosenOnes(new ArrayList<>(user.getPositions()));
+        if (errors.hasFieldErrors("chosenOnesPositions")) {
+            user.setChosenOnesPositions(new ArrayList<>(user.getPositionsWithoutDeletedOne()));
             return "deletePosition";
         }
-        List<Position> positionsToDelete = user.getChosenOnes();
-        for (Position position : positionsToDelete) {
-            repository.deleteByName(position.getName());
+        List<Position> positionsToDelete = user.getChosenOnesPositions();
+        Position deleted = positionRepository.findByUserAndName(user, "Удалена");
+        if (deleted == null) {
+            deleted = new Position();
+            deleted.setUser(user);
+            deleted.setName("Удалена");
+            positionRepository.save(deleted);
         }
-        for (Position position : positionsToDelete)
-            user.getPositions().removeIf(pos -> pos.getName().equals(position.getName()));
-
+        editOrDeletePosition(user, deleted, positionsToDelete);
         return "positionManagementHome";
+    }
+
+    private void editOrDeletePosition(User user, Position pos,
+                                      List<Position> chosenOnes) {
+        for (Position position : chosenOnes) {
+            List<Employee> employees = employeeRepository.findAllByUserAndPosition(user, position);
+            positionRepository.deleteByUserAndName(user, position.getName());
+            user.getEmployees().removeIf(curr -> curr.getPosition().getName().equals(position.getName()));
+            user.getPositions().removeIf(curr -> curr.getName().equals(position.getName()));
+
+            for (Employee employee : employees) {
+                employee.setPosition(pos);
+                user.getEmployees().add(employee);
+            }
+        }
     }
 }

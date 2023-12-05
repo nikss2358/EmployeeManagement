@@ -1,0 +1,52 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Management</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<body>
+<form th:method="POST" th:action="@{/checkEditEmployeeHome}" th:object="${editedEmployee}">
+    <div class="grid">
+        <h3>Редактируем сотрудника:</h3>
+        <span th:text="${user.employeeToEdit}"></span>
+        <p>Должность = <span th:text="${user.employeeToEdit.position}"></span></p>
+        <p>Дата принятия на работу = <span th:text="${user.employeeToEdit.date}"></span></p>
+        <p>---------------------------------------------------------------</p>
+        <p>Введите изменения в те поля, которые вам нужны
+        <p>
+            <label>Фамилия</label>
+            <input type="text" th:field="*{lastName}"/>
+            <br/>
+            <label>Имя</label>
+            <input type="text" th:field="*{firstName}"/>
+            <br>
+            <label>Отчество</label>
+            <input type="text" th:field="*{middleName}"/>
+            <br/>
+        <div>
+            <label>Должность</label>
+            <div th:each="chosen : *{editedEmployeesPositions}">
+                <input th:field="*{editedEmployeesPositions}" type="checkbox"
+                       th:value="${chosen.id}"/>
+                <span th:text="${chosen.name}">POSITION</span>
+            </div>
+            <span class="error"
+                  th:if="${#fields.hasErrors('editedEmployeesPositions')}"
+                  th:errors="*{editedEmployeesPositions}">ChosenOnes Error</span>
+        </div>
+        <br/>
+        <label>Дата принятия на работу</label>
+        <input type="text" th:field="*{date}"/>
+        <span class="error"
+              th:if="${#fields.hasErrors('date')}"
+              th:errors="*{date}">ChosenOnes Error</span>
+
+        <br/>
+        <form method="GET" th:action="@{/checkChooseEmployeeToEdit}">
+            <button>Назад</button>
+        </form>
+        <button>Подтвердить</button>
+    </div>
+</form>
+</body>
+</html>

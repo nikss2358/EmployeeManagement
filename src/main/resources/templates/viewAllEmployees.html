@@ -1,0 +1,20 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Management</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<body>
+<h2>Все ваши сотрудники:</h2>
+<form th:object="${user}">
+    <li th:each="employee : *{employees}">
+        <span th:text="${employee}">EMPLOYEE</span>
+        <p>Должность =  <span th:text="${employee.position}">POSITION</span></p>
+        <p>Дата принятия на работу =  <span th:text="${employee.date}">DATE</span></p>
+</form>
+</h2>
+<form th:action="@{/employeeManagementHome}">
+    <button>Назад</button>
+</form>
+</body>
+</html>

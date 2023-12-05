@@ -16,8 +16,8 @@ public class InvalidPropertiesValidator implements ConstraintValidator<InvalidPr
     @Autowired
     InvalidPropertiesValidator(UserRepository repository) {
         this.repository = repository;
-
     }
+
     @Override
     public boolean isValid(@ModelAttribute("signInUser") SignInUser s, ConstraintValidatorContext constraintValidatorContext) {
         User user = repository.findByUsername(s.getName());

@@ -12,7 +12,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = InvalidPropertiesValidator.class)
 public @interface InvalidProperties {
-    String message() default "Invalid username or password";
+    String message() default "Неверное имя пользователя и/или пароль";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

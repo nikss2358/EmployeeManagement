@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Management</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<body>
+<h2>Добавление сотрудника</h2>
+<form th:method="POST" th:action="@{/checkAddingEmployee}" th:object="${employee}">
+    <div>
+        <label>Фамилия:</label>
+        <input type="text" th:field="*{lastName}"/>
+        <span class="error"
+              th:if="${#fields.hasErrors('lastName')}"
+              th:errors="*{lastName}">LastName Error</span>
+        </br>
+        <label>Имя:</label>
+        <input type="text" th:field="*{firstName}"/>
+        <span class="error"
+              th:if="${#fields.hasErrors('firstName')}"
+              th:errors="*{firstName}">FirstName Error</span>
+        </br>
+        <label>Отчество:</label>
+        <input type="text" th:field="*{middleName}"/>
+        <span class="error"
+              th:if="${#fields.hasErrors('middleName')}"
+              th:errors="*{middleName}">MiddleName Error</span>
+        </br>
+        <label>Дата принятия на работу:</label>
+        <input type="text" th:field="*{date}"/>
+        <span class="error"
+              th:if="${#fields.hasErrors('date')}"
+              th:errors="*{date}">Date Error</span>
+        </br>
+        <div>
+            <label>Должность:</label>
+            <div th:each="chosen : *{chosenOnes}">
+                <input th:field="*{chosenOnes}" type="checkbox"
+                       th:value="${chosen.id}"/>
+                <span th:text="${chosen.name}">POSITION</span>
+            </div>
+            <span class="error"
+                  th:if="${#fields.hasErrors('chosenOnes')}"
+                  th:errors="*{chosenOnes}">ChosenOnes Error</span>
+        </div>
+        <button>Подтвердить</button>
+    </div>
+</form>
+<form th:action="@{/employeeManagementHome}">
+    <button>Назад</button>
+</form>
+</body>
+</html>

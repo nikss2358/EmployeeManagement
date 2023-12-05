@@ -1,5 +1,7 @@
 package management.web;
 
+import management.data.PositionRepository;
+import management.objectData.Position;
 import management.objectData.User;
 import management.data.UserRepository;
 import management.validation.SignInUserProxy;
@@ -16,14 +18,15 @@ import jakarta.validation.Valid;
 @SessionAttributes("user")
 public class HomeController {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
 
     @Autowired
-    HomeController(UserRepository repository) {
-        this.repository = repository;
+    HomeController(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
+
     @ModelAttribute("model")
-    public Model getModel(Model model){
+    public Model getModel(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("signInUserProxy", new SignInUserProxy());
         return model;
@@ -48,7 +51,7 @@ public class HomeController {
     public String processUser(@Valid @ModelAttribute("user") User user, Errors errors) {
         if (errors.hasErrors())
             return "register";
-        repository.save(user);
+        userRepository.save(user);
         user.setUsername("");
         user.setPassword("");
         return "home";
@@ -61,10 +64,8 @@ public class HomeController {
             Errors errors) {
         if (errors.hasErrors())
             return "signIn";
-
-        User user = repository.findByUsername(signInUserProxy.getSignInUser().getName());
+        User user = userRepository.findByUsername(signInUserProxy.getSignInUser().getName());
         model.addAttribute("user", user);
-        return "redirect:/positionHome";
+        return "entrance";
     }
-
 }
