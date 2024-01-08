@@ -1,0 +1,22 @@
+version: '3'
+services:
+  db:
+    image: 'mysql:5.7'
+    container_name: db
+    ports:
+      - 3307:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=53795469fuck
+      - MYSQL_DATABASE=employee-management
+      - MYSQL_PASSWORD=53795469fuck
+  app:
+    image: 'app'
+    ports:
+      - 8080:8080
+    build:
+      context: .
+    container_name: app
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL = jdbc:mysql://db:3306/employee-management?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
